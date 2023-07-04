@@ -10,11 +10,11 @@ const app = express();
 //import Routes 
 //importo i moduli delle route per user  product
 const productsRoute = require('./routes/products');
-const usersRoute = require('./routes/order');
+const ordersRoute = require('./routes/order');
 
 // use Routes
 app.use('/api/products', productsRoute); //definisce che tutte le richieste dell'endpoint vengono gestite da productRoute
-app.use('/api/users', usersRoute);
+app.use('/api/orders', ordersRoute);
 
 
 //metodo express per registrare funzioni middleware usando req e res 
