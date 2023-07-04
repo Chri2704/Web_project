@@ -8,13 +8,17 @@ const cors = require('cors');
 const app = express();
 
 //import Routes 
+//importo i moduli delle route per user  product
 const productsRoute = require('./routes/products');
-const usersRoute = require('./routes/users');
+const usersRoute = require('./routes/order');
 
 // use Routes
 app.use('/api/products', productsRoute); //definisce che tutte le richieste dell'endpoint vengono gestite da productRoute
 app.use('/api/users', usersRoute);
 
+
+//metodo express per registrare funzioni middleware usando req e res 
+//cors è un middleware di Exrpess che permette la comunicazione tra domini diversi impostando i vari campi
 app.use(cors({
   origin: '*', //origini consentite 
   methods: ['POST', 'GET', 'PATCH', 'DELETE', 'PUT'], //metodi HTTP consentiti
@@ -44,7 +48,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', { title: 'Errore' });
 });
 
 module.exports = app;
