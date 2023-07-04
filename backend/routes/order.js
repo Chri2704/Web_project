@@ -111,14 +111,14 @@ router.post('/new', async (req, res) => {
 
                     // Insert order details w.r.t the newly created order Id
                     database.table('orders_details')
-                        .insert({
+                        .insert({ //inserisco nuovo record nella tabella con i seguenti campi
                             order_id: newOrderId,
                             product_id: p.id,
                             quantity: inCart
                         }).then(newId => {
                         database.table('products')
                             .filter({id: p.id})
-                            .update({
+                            .update({ //aggiorna quantità
                                 quantity: data.quantity
                             }).then(successNum => {
                         }).catch(err => console.log(err));
