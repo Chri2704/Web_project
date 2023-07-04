@@ -3,8 +3,8 @@ const router = express.Router();
 const {database} = require('../config/helpers'); //importa oggetto data base dal **
 
 /* GET All orders. */
-router.get('/', (req, res) => {
-    database.table('orders_details as od')
+router.get('/', (req, res) => { //in /api/order vado a prendere tutti gli ordini
+    database.table('orders_details as od') //join tra orders e orders_detail
         .join([
             {
                 table: 'orders as o',
@@ -20,11 +20,11 @@ router.get('/', (req, res) => {
             }
         ])
         .withFields(['o.id', 'p.title', 'p.description', 'p.price', 'u.username'])
-        .sort({id:1})
+        .sort({id:1}) //ordinamento crescente
         .getAll()
         .then(orders => {
             if (orders.length > 0) {
-                res.json(orders);
+                res.json(orders);       //ritorna la risposta in json degl ordini presenti sul db
             } else {
                 res.json({message: "No orders found"});
             }
@@ -32,8 +32,12 @@ router.get('/', (req, res) => {
         }).catch(err => res.json(err));
 });
 
-// Get Single Order
+// Get Single Order trough id:
+
+//viene usata funzione async per restituire promessa in modo da esegire in ordine le operazioni 
+
 router.get('/:id', async (req, res) => {
+    //catturo l'id scritto nell'url in modo da recuperare jnel db l'ordine analogo
     let orderId = req.params.id;
     console.log(orderId);
 
@@ -53,12 +57,12 @@ router.get('/:id', async (req, res) => {
             }
         ])
         .withFields(['o.id', 'p.title', 'p.description', 'p.price', 'p.image', 'od.quantity as quantityOrdered'])
-        .filter({'o.id': orderId})
+        .filter({'o.id': orderId}) //filtro l'ordine di interesse
         .getAll()
         .then(orders => {
             console.log(orders);
             if (orders.length > 0) {
-                res.json(orders);
+                res.json(orders); //ritorno sempre in formato json
             } else {
                 res.json({message: "No orders found"});
             }
@@ -66,9 +70,12 @@ router.get('/:id', async (req, res) => {
         }).catch(err => res.json(err));
 });
 
+
+//POSTper creazione di un nuovo ordine
+
 router.post('/new', async (req, res) => {
-    // let userId = req.body.userId;
-    // let data = JSON.parse(req.body);
+
+
     let {userId, products} = req.body;
     console.log(userId);
     console.log(products);
@@ -80,6 +87,7 @@ router.post('/new', async (req, res) => {
             }).then((newOrderId) => {
 
             if (newOrderId > 0) {
+                //per ogni prodotto viene recuperata la quantità in modo da sottrarre quella del nuovo ordine 
                 products.forEach(async (p) => {
 
                         let data = await database.table('products').filter({id: p.id}).withFields(['quantity']).get();
@@ -135,6 +143,7 @@ router.post('/new', async (req, res) => {
 
 });
 
+//POST per pagamento dove viene simulato buffer operazione
 router.post('payment', (req, res) =>{
     setTimeout(()=>{
         res.status(200).json({success:true});
