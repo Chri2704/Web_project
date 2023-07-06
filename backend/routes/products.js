@@ -33,6 +33,7 @@ database.table('products as p')
   .withFields(['c.title as category', //seleziono queli campi prendere dalla join
   'p.title as name',
   'p.price',
+  'p.description',
   'p.quantity',
   'p.image',
   'p.id'

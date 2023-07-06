@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import {Observable} from "rxjs";
+import { ServerResponse } from '../models/product.model';
+
 
 //providedIn root permette di non doverlo aggiungere in provider di app.module.ts
 @Injectable({
@@ -16,8 +19,9 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   //prende tutti i prodotti del backend usando la chiamata http GET sull' indirizzo /api/products che recupera tutti i prodotti dal db
-  getAllProducts(numberOfResults=10){
-    return this.http.get(this.SERVER_URL + '/products',{
+  //è stato necessario definire il tipo di ritorno Observable<ServerResponse> alla funzione altrimenti problemi di overload dato che ci si aspettano 2 tipi di dato
+  getAllProducts(numberOfResults=10):Observable<ServerResponse>{
+    return this.http.get<ServerResponse>(this.SERVER_URL + '/products',{
       params:{
         limit: numberOfResults.toString()
       }
