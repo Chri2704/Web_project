@@ -14,6 +14,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent } from './components/product/product.component';
 import { ThankyouComponent } from './components/thankyou/thankyou.component'; //componente header
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ThankyouComponent } from './components/thankyou/thankyou.component'; //
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

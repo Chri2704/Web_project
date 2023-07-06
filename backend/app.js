@@ -7,6 +7,15 @@ const cors = require('cors');
 
 const app = express();
 
+//metodo express per registrare funzioni middleware usando req e res 
+//cors è un middleware di Exrpess che permette la comunicazione tra domini diversi impostando i vari campi
+app.use(cors({
+  origin: '*', //origini consentite 
+  methods: ['POST', 'GET', 'PATCH', 'DELETE', 'PUT'], //metodi HTTP consentiti
+  allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' //header consentiti nelle richieste
+}));
+
+
 //import Routes 
 //importo i moduli delle route per user  product
 const productsRoute = require('./routes/products');
@@ -17,13 +26,7 @@ app.use('/api/products', productsRoute); //definisce che tutte le richieste dell
 app.use('/api/orders', ordersRoute);
 
 
-//metodo express per registrare funzioni middleware usando req e res 
-//cors è un middleware di Exrpess che permette la comunicazione tra domini diversi impostando i vari campi
-app.use(cors({
-  origin: '*', //origini consentite 
-  methods: ['POST', 'GET', 'PATCH', 'DELETE', 'PUT'], //metodi HTTP consentiti
-  allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' //header consentiti nelle richieste
-}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
