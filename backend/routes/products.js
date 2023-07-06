@@ -56,18 +56,18 @@ database.table('products as p')
 
 });
 
-// GET prodotti singoli
+// GET prodotti singoli definendo l'id
 
 router.get('/:prodId', (req, res) => {
   let productId = req.params.prodId;
-  database.table('products as p')
+  database.table('products as p') //joijn di prodotti e categorie
       .join([
           {
               table: "categories as c",
               on: `c.id = p.cat_id`
           }
       ])
-      .withFields(['c.title as category',
+      .withFields(['c.title as category', //campi selezionati
           'p.title as name',
           'p.price',
           'p.quantity',
@@ -76,9 +76,9 @@ router.get('/:prodId', (req, res) => {
           'p.id',
           'p.images'
       ])
-      .filter({'p.id': productId})
+      .filter({'p.id': productId}) //viene filtrato solo l'id nella get
       .get()
-      .then(prod => {
+      .then(prod => { //controlli
           console.log(prod);
           if (prod) {
               res.status(200).json(prod);
@@ -90,9 +90,9 @@ router.get('/:prodId', (req, res) => {
 
 //GET dei prodotti della stessa categoria
 
-router.get('/category/:catName', (req, res) => { // Sending Page Query Parameter is mandatory http://localhost:3636/api/products/category/categoryName?page=1
-  let page = (req.query.page !== undefined && req.query.page !== 0) ? req.query.page : 1;   // check if page query param is defined or not
-  const limit = (req.query.limit !== undefined && req.query.limit !== 0) ? req.query.limit : 10;   // set limit of items per page
+router.get('/category/:catName', (req, res) => { //http://localhost:3000/api/products/category/categoryName?page=1
+  let page = (req.query.page !== undefined && req.query.page !== 0) ? req.query.page : 1;  //viene controllato se la la query è definita o no
+  const limit = (req.query.limit !== undefined && req.query.limit !== 0) ? req.query.limit : 10;   // limite di items per pagina
   let startValue;
   let endValue;
   if (page > 0) {
@@ -122,7 +122,7 @@ router.get('/category/:catName', (req, res) => { // Sending Page Query Parameter
           'p.id'
       ])
       .slice(startValue, endValue)
-      .sort({id: 1})
+      .sort({id: 1})//crescente
       .getAll()
       .then(prods => {
           if (prods.length > 0) {

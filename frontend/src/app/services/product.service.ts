@@ -3,7 +3,7 @@ import {HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {Observable} from "rxjs";
-import { ServerResponse } from '../models/product.model';
+import { ServerResponse, productModelServer } from '../models/product.model';
 
 
 //providedIn root permette di non doverlo aggiungere in provider di app.module.ts
@@ -26,6 +26,14 @@ export class ProductService {
         limit: numberOfResults.toString()
       }
     });
+  }
+
+  getSingleProduct(id: Number): Observable<productModelServer> {
+    return this.http.get<productModelServer>(this.SERVER_URL + 'products/' + id);
+  }
+
+  getProductsFromCategory(catName: String): Observable<productModelServer[]> {
+    return this.http.get<productModelServer[]>(this.SERVER_URL + 'products/category/' + catName);
   }
 
 }
