@@ -5,7 +5,7 @@ import { OrderService } from './order.service';
 import { environment } from 'src/environments/environment';
 import { CartModelPublic, CartModelServer } from '../models/cart.model';
 import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { productModelServer } from '../models/product.model';
 
 
@@ -19,6 +19,7 @@ export class CartService{
 private serverURL = environment.SERVER_URL;
 
 //variabile per conservare le info del cart nello storage locale del client
+//in cart.model id viene definito number
 private cartDataClient: CartModelPublic = {
   total:0,
   prodData:[{
@@ -28,20 +29,19 @@ private cartDataClient: CartModelPublic = {
 };
 
 //variabile per conservare le info del cart nello storage locale del server
+//in cart model product viene definito productModelServer
 private cartDataServer: CartModelServer = {
   total: 0,
   data: [{
+    product:{} as productModelServer,
     numInCart:0,
-    product:undefined,
   }]
 };
 
-//creazione observable
-cartTotal$ = new BehaviorSubject<number>(0);
-cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);
-
-
-
+//creazione observable per gestire i flussi di dati asincroni
+//behaviorSubject viene fornito da RxJS, 
+cartTotal$ = new BehaviorSubject<number>(0); //emette valori aggiornati del totale carrello 
+cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette valori aggiornati dei dati del carrello 
 
   constructor(private http: HttpClient,
                 private productService: ProductService,
@@ -52,7 +52,7 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);
         this.cartData$.next(this.cartDataServer);
 
       //prendere le informazioni dallo storage locale (se ce ne sono)
-      let info = JSON.parse(localStorage.getItem('cart'));
+      let info: CartModelPublic = JSON.parse(localStorage.getItem('cart')||'{}');
 
       //controlla se le info sono nulle o no
       if(info != null && info != undefined && info.prodData[0].inCart != 0){
@@ -182,10 +182,89 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);
       }
 
       if(this.cartDataServer.total == 0){
-        this.cartDataServer = {total: 0,data: [{numInCart:0,product:undefined}]};
+        this.cartDataServer = {total: 0,data: [{numInCart:0,product:{} as productModelServer}]};
+        this.cartData$.next({...this.cartDataServer});
+      }else{
+        this.cartData$.next({...this.cartDataServer});
       }
+    }else{
+      //se l'utente clicca su cancella
+      return;
     }
   }
 
 
+  private CalculateTotal(){
+    let total = 0;
+    this.cartDataServer.data.forEach(p=>{
+      const {numInCart} = p;
+      const {price} = p.product;
+
+      total += numInCart * price;
+    });
+    this.cartDataServer.total = total;
+    this.cartTotal$.next(this.cartDataServer.total);
+  }
+
+  CheckOutFromCart(userId: number){
+    this.http.post<OrderResponse>(`${this.serverURL}/orders/payment`, null).subscribe((res:{success : boolean}) =>{
+      if(res.success){
+        this.resetServerData();
+        this.http.post<OrderResponse>(`${this.serverURL}/orders/new`, {
+          userId: userId,
+          products: this.cartDataClient.prodData
+        }).subscribe((data: OrderResponse) => {
+
+          this.orderService.getSingleOrder(data.order_id).then(prods =>{
+            if(data.success){
+              const navigationExtras : NavigationExtras = {
+                state: {
+                  message: data.message,
+                  products: prods,
+                  orderId: data.order_id,
+                  total: this.cartDataClient.total
+                }
+              };
+              
+              //to do
+              this.router.navigate(['/thankyou'], navigationExtras).then(p=>{
+                this.cartDataClient = {total:0, prodData: [{inCart: 0, id: 0}]};
+                this.cartTotal$.next(0);
+                localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
+
+              });
+            }
+            
+          });
+
+        });
+      }
+    });
+    }
+  
+
+    private resetServerData(){
+      this.cartDataServer = {
+        total: 0,
+        data: [{
+          numInCart:0,
+          product:{} as productModelServer,
+        }]
+      };
+
+      this.cartData$.next({...this.cartDataServer});
+    }
+
+
+
+}
+
+interface OrderResponse{
+  order_id: number;
+  success: boolean;
+  message : string;
+  products: [{
+    id:string,
+    numInCart: string
+  }];
 }
