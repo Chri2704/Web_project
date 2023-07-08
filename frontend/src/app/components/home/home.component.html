@@ -75,6 +75,7 @@
 						<div class="row">
 						<div class="col-md-4 col-sm-6" *ngFor="let p of products">
 							<div class="card my-2">
+								<!-- property binding per recuperare l'immagine e il nomd(possibile grazie al model product)' -->
 							<img [src]="p.image" alt="{{p.name}}" width="200px" class="card-img-top" style="cursor:pointer" (click)="selectProduct(p.id)">
 							<div class="card-header">
 								<div class="card-title">
