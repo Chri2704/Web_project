@@ -230,6 +230,16 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     }
   }
 
+  CalculateSubTotal(index: number): number {
+    let subTotal = 0;
+
+    let p = this.cartDataServer.data[index];
+    // @ts-ignore
+    subTotal = p.product.price * p.numInCart;
+
+    return subTotal;
+  }
+
   DeleteProductFromCart(index:number){
     if(window.confirm('Sicuro di voler rimuovere il prodotto?')){
       this.cartDataServer.data.splice(index,1);
@@ -269,6 +279,16 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     this.cartDataServer.total = total;
     this.cartTotal$.next(this.cartDataServer.total);
   }
+
+  calculateSubTotal(index: number):number{
+    let subTotal = 0;
+
+    const p = this.cartDataServer.data[index];
+    subTotal= p.product.price + p.numInCart;
+    
+    return subTotal;
+  }
+
 
   CheckOutFromCart(userId: number){
     this.http.post<OrderResponse>(`${this.serverURL}orders/payment`, null).subscribe((res:{success : boolean}) =>{
