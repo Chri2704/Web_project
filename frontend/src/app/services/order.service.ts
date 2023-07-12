@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OrderService{
 
-    products: any[] =  [];
+    products: ProductResponseModel[] =  [];
     private server_url = environment.SERVER_URL;
 
     constructor(private http: HttpClient){

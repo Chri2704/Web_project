@@ -1,6 +1,8 @@
-import { productModelServer } from "./product.model";
+
 
 //interfaccia per definire i dati del server e tipizzare per gestire meglio gli errori
+
+import { productModelServer } from "./product.model";
 
 export interface CartModelServer{
     total : number; //totale carrello
