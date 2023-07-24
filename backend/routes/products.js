@@ -7,8 +7,10 @@ const {database} = require('../config/helpers'); //importa oggetto data base dal
 /* GET ALL products*/
 //in /api/products
 router.get('/', function(req, res) {
-
-
+console.log(req.query.page);
+// console.log(req.);
+// console.log(req.);
+// console.log(req.);
 let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; //recupero valore della richiesta e controllo che non sa vuota
 const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; //setta limite di items per pagina
 
@@ -79,7 +81,7 @@ router.get('/:prodId', (req, res) => {
       .filter({'p.id': productId}) //viene filtrato solo l'id nella get
       .get()
       .then(prod => { //controlli
-          console.log(prod);
+          
           if (prod) {
               res.status(200).json(prod);
           } else {

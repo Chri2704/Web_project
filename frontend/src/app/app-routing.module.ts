@@ -5,6 +5,8 @@ import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ThankyouComponent } from './components/thankyou/thankyou.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 //gestisce l'instradamento. per ogni route bisogna anche fare l'import sopra dell'oggetto e del percorso
@@ -23,6 +25,12 @@ const routes: Routes = [
   },
   {
     path: 'thankyou', component: ThankyouComponent
+  },
+  {
+    path: 'login', component: LoginComponent
+  },
+  {
+    path: 'register', component: RegisterComponent
   },
 ];
 

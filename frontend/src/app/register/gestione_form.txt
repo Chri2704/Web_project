@@ -1,0 +1,31 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-my-form',
+  templateUrl: './my-form.component.html',
+  styleUrls: ['./my-form.component.css']
+})
+export class MyFormComponent {
+  myForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {
+    // Utilizzo del FormBuilder per creare il FormGroup con i controlli di input
+    this.myForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      age: ['', Validators.min(18)]
+    });
+  }
+}
+
+-utilizzo myForm di tipo FormGroup per fare in modo da collegare il form il ts. al form html
+- FormBuilder mi permette di inizializzare i dati del form con quelli inseriti nel form 
+
+-per creare un form di registrazione è necessario in angular nella componente gtml fare un form che abbia formgroup e ngsubmit in modo da comunicare
+ con il file ts dello stesso componente su cui inizializzo attraverso il costruttore i dati del form. invece con ngsubmit io vado a definire la funzione 
+ che prende tutti i valori del form in modo che poi collegandomi al backend di express nel momento in cui viene effettuata la chiamata api per
+  esempio 'api/register' io prendo i dati del form e li vado a confrontare nel db per vedere se sono dati nuovi e li inserisco in modo da poter
+   lavorare poi con il login che leggerà i dati del db per farmi fare l'accesso.
+
+-nella submit quando entro in form valid manda i dati del form all'endpoint invece di usare il service 

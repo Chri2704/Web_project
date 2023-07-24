@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json());
 
 //metodo express per registrare funzioni middleware usando req e res 
 //cors è un middleware di Exrpess che permette la comunicazione tra domini diversi impostando i vari campi
@@ -20,10 +21,12 @@ app.use(cors({
 //importo i moduli delle route per user  product
 const productsRoute = require('./routes/products');
 const ordersRoute = require('./routes/order');
+const usersRoute = require('./routes/users');
 
 // use Routes
 app.use('/api/products', productsRoute); //definisce che tutte le richieste dell'endpoint vengono gestite da productRoute
 app.use('/api/orders', ordersRoute);
+app.use('/api/users', usersRoute);
 
 
 
@@ -41,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+
 });
 
 // error handler

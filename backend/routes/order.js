@@ -144,7 +144,7 @@ router.post('/new', async (req, res) => {
 });
 
 //POST per pagamento dove viene simulato buffer operazione
-router.post('payment', (req, res) =>{
+router.post('/payment', (req, res) =>{
     setTimeout(()=>{
         res.status(200).json({success:true});
     }, 3000);

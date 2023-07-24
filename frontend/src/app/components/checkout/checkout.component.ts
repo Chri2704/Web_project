@@ -3,12 +3,11 @@ import {CartService} from "../../services/cart.service";
 import {CartModelServer} from "../../models/cart.model";
 import {Router} from "@angular/router";
 import {OrderService} from "../../services/order.service";
-import {NgxSpinnerService} from "ngx-spinner";
 import {FormBuilder, NgForm, Validators} from "@angular/forms";
 import { productModelServer } from 'src/app/models/product.model';
 
 @Component({
-  selector: 'mg-checkout',
+  selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
@@ -26,7 +25,6 @@ export class CheckoutComponent implements OnInit {
   constructor(private cartService: CartService,
               private orderService: OrderService,
               private router: Router,
-              private  spinner: NgxSpinnerService,
               private fb: FormBuilder) {
 
     this.checkoutForm = this.fb.group({
@@ -47,9 +45,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   onCheckout() {
-   this.spinner.show().then(p => {
       this.cartService.CheckOutFromCart(2);
-    });
+    
 
 
   //console.log(this.checkoutForm.value);
