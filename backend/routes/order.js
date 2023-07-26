@@ -60,7 +60,7 @@ router.get('/:id', async (req, res) => {
         .filter({'o.id': orderId}) //filtro l'ordine di interesse
         .getAll()
         .then(orders => {
-            console.log(orders);
+            console.log(orders.length);
             if (orders.length > 0) {
                 res.json(orders); //ritorno sempre in formato json
             } else {

@@ -81,7 +81,7 @@ router.get('/:prodId', (req, res) => {
       .filter({'p.id': productId}) //viene filtrato solo l'id nella get
       .get()
       .then(prod => { //controlli
-          
+          console.log(prod.id)
           if (prod) {
               res.status(200).json(prod);
           } else {
