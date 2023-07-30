@@ -1,0 +1,9 @@
+i jwt sono usati per stabilire una sessione utente. sono payload json firmati digitalmente e 
+li andrò ad usare per fare in modo che nel momento del ogin verrà ricordata la sessione per fare in modo
+che l'utente possa interagire con il sito web eseguendo ordini e altro
+esempio: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM
+in strumento di convalia verrà visto così: 
+{
+  "sub": "353454354354353453", //id utente
+  "exp": 1504699256 //scadenza sessionef
+}

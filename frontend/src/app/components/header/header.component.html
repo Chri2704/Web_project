@@ -11,8 +11,22 @@
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
 						<!-- dropdown -->
-						<li><button><i class="fa fa-user-o"></i> <a routerLink="/register">Register</a></button></li>
-						<li><button><i class="fa fa-user-o"></i> <a routerLink="/login">Login</a></button></li>
+						<div *ngIf="responseData">
+							<div class="dropdown">
+								<button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								  nome utente
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								  <li><a class="dropdown-item" href="#">Action</a></li>
+								  <li><button (click)="logout()"><a class="dropdown-item">logout</a></button></li>
+								</ul>
+							  </div>
+						</div>
+						<div *ngIf="!responseData">
+							<li><button><i class="fa fa-user-o"></i> <a routerLink="/register">Register</a></button></li>
+							<li><button><i class="fa fa-user-o"></i> <a routerLink="/login">Login</a></button></li>
+						</div>
+
 					</ul>
 				</div>
 			</div>

@@ -25,6 +25,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { RegisterComponent } from './register/register.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
