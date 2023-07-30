@@ -4,6 +4,7 @@ import { productModelServer } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, CurrencyPipe  } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 
@@ -26,6 +27,7 @@ responseData:any;
   cartTotal: number;
   constructor(public cartService: CartService,
               private http:HttpClient,
+              private router: Router,
               ){
                 this.cartTotal = 0;
               }
@@ -50,6 +52,18 @@ responseData:any;
   }
   
 logout(){
-  
+  this.http.get<any>('http://localhost:3000/api/users/logout', { withCredentials: true }).subscribe({
+    next:(response) => {
+      // Gestisci la risposta qui
+      console.log('Risposta:', response);
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        window.location.reload();
+      });
+    },
+    error:(error) => {
+      // Gestisci gli errori qui
+      console.error('Errore:', error);
+    }
+  });
 }
 }
