@@ -11,6 +11,7 @@ const { promisify } = require('util');
 router.post("/register", async (req, res) => {
     try {
       //recupero dal body password e email
+      const username = req.body.username;
       const email = req.body.email;
       const password = req.body.password;
       //faccio hashing della password per salvarla in modo criptato su db
@@ -32,7 +33,8 @@ router.post("/register", async (req, res) => {
           //inserisco i dati nel db
           database.table('users').insert({
             password: hashedPassword,
-            email : email
+            email : email,
+            username : username
           })
 
           res.status(200).json({ message: 'Dati inseriti nel database con successo!' });
@@ -46,6 +48,7 @@ router.post("/register", async (req, res) => {
 // se esistono i dati permette accesso
 router.post('/login', async (req, res) => {
     try {
+        const username = req.body.username;
         const email = req.body.email;
         const password = req.body.password;
 
@@ -54,10 +57,10 @@ router.post('/login', async (req, res) => {
 
         // Recupera l'utente dal database utilizzando l'email fornita
         const users = await database.table('users').getAll();
-        console.log(users);
+
         // Verifica se l'email esiste tra gli utenti
         const user = users.find(user => user.email === email);
-
+        console.log("user", user)
         if (user) {
             console.log("L'email è presente, tocca controllare la password");
 
@@ -78,10 +81,6 @@ router.post('/login', async (req, res) => {
                     expiresIn: config.env.JWT_EXPIRE_IN
                 })
 
-                console.log("token: ", token);
-                console.log("secret: ", config.env.JWT_SECRET);
-                console.log("ezpire: ", config.env.JWT_EXPIRE_IN);
-
                 //setto opzioni cookies: scadenza e accetta http
                 const cookieOptions = {
                     expires: new Date(
@@ -93,8 +92,8 @@ router.post('/login', async (req, res) => {
                 console.log("cookieOptions", cookieOptions)
 
                 //cookie accetta 3 parametri, nome , token , options
-                res.cookie('userSave', token, cookieOptions);
-                res.status(200).json({ message: 'Dati inseriti nel database con successo!' });
+                res.cookie('userSave', token, cookieOptions).send({message: 'login avvenuto con successo'});
+
 
             } else {
                 console.log('password non corretta. riprovare');
@@ -110,39 +109,36 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get("/isLogged", async(req, res, next)=>{ 
-
-
+router.get("/isLogged", async (req, res, next) => {
     if (req.cookies.userSave) {
-        try {
-            // 1. Verify the token
-            const decoded = await promisify(jwt.verify)(req.cookies.userSave,
-                config.env.JWT_SECRET
-            );
-            console.log(decoded);
-
-            // 2. controlla se l'id è ancora presente decodificando l'id del cookie
-            database.table('users').getAll().then(users => {
-                // Verifica se l'email esiste già tra gli utenti
-                //è necessario fare così dato che la chiamata al db è asincrona
-            const userExist = users.find(user => user.id === decoded.id);
-        
-            if (userExist) {
-                console.log("il token contiene id di user esistente");
-                req.user = userExist;
-                res.status(200).json({ message: 'user esistente' });
-            } else {
-                res.status(200).json({ message: 'user non esiste' });
-            }
-              });
-        } catch (err) {
-            console.log(err)
-            return next();
+      try {
+        // 1. Verify the token
+        const decoded = await promisify(jwt.verify)(
+          req.cookies.userSave,
+          config.env.JWT_SECRET
+        );
+        console.log(decoded);
+  
+        // 2. Controlla se l'id dell'utente esiste ancora nel database
+        const users = await database.table('users').getAll();
+        const userExist = users.find(user => user.id === decoded.id);
+  
+        if (userExist) {
+          console.log("Il token contiene l'id di un utente esistente");
+          console.log("userExist: ", userExist);
+          return res.status(200).json({ userExist: userExist});
+        } else {
+          return res.status(200).json({ message: 'Utente non esiste' });
         }
+      } catch (err) {
+        console.log(err);
+        return next();
+      }
     } else {
-        next();
+      next();
     }
-});
+  });
+  
 
 router.get("/logout", async(req, res)=>{
     res.cookie('userSave', 'logout', {

@@ -14,11 +14,13 @@
 						<div *ngIf="responseData">
 							<div class="dropdown">
 								<button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-								  nome utente
+								  {{userData.username}}
 								</button>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-								  <li><a class="dropdown-item" href="#">Action</a></li>
+								  <li><a class="dropdown-item" href="#"></a>Profilo</li>
 								  <li><button (click)="logout()"><a class="dropdown-item">logout</a></button></li>
+								  
+								  <li *ngIf="userData.role == 777"><button ><a routerLink="/dashboard" class="dropdown-item">Dashboard</a></button></li>
 								</ul>
 							  </div>
 						</div>

@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() { 
     //inizializzo il form con i campi vuoti e aggiungo validators 
     this.myForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]

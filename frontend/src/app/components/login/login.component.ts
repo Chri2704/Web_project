@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 //commenti uguali in register.component.ts
 export class LoginComponent {
 
+
+
   myForm: FormGroup = new FormGroup({});
 
   constructor(private http: HttpClient,
@@ -42,7 +44,9 @@ export class LoginComponent {
       let res = this.http.post<any>('http://localhost:3000/api/users/login', formData, {withCredentials:true})
         .subscribe({
           next : (response: any) => {
+
             console.log('login avvenuto con successo!', response);
+
             this.router.navigate(['/']).then(() => {
               window.location.reload(); // Questo ricaricherà la pagina
             });

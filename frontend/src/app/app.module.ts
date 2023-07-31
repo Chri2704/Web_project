@@ -23,7 +23,8 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
