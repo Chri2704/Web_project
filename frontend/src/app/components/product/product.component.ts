@@ -5,17 +5,16 @@ import {productModelServer} from "../../models/product.model";
 import {map} from "rxjs/operators";
 import {CartService} from "../../services/cart.service";
 
-declare let $: any; //variabile jquery per usare slick carousel sotto
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements AfterViewInit, OnInit {
+export class ProductComponent implements OnInit {
 
   id: number = 0;
-  product:any;
+  product:any ={};
   thumbimages: any[] = [];
 
   //@ts-ignore
@@ -46,50 +45,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
 
-
-    //sezione presa dal js
-    // Product Main img Slick
-    // inizializza il plugin Slick Carousel sullo slider principale delle immagini dei prodotti settando le varie opzioni
-    $('#product-main-img').slick({
-      infinite: true,
-      speed: 300,
-      dots: false,
-      arrows: true,
-      fade: true,
-      asNavFor: '#product-imgs',
-    });
-
-    // Product imgs Slick
-    //inizializza il plugin Slick Carousel sullo slider delle miniature delle immagini dei prodotti
-    $('#product-imgs').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      arrows: true,
-      centerMode: true,
-      focusOnSelect: true,
-      centerPadding: 0,
-      vertical: true,
-      asNavFor: '#product-main-img',
-      responsive: [{
-        breakpoint: 991,
-        settings: {
-          vertical: false,
-          arrows: false,
-          dots: true,
-        }
-      },
-      ]
-    });
-
-    // Product img zoom
-    //inizializza il plugin "Zoom" sulle immagini all'interno dello slider principale ('#product-main-img').
-    var zoomMainProduct = document.getElementById('product-main-img');
-    if (zoomMainProduct) {
-      $('#product-main-img .product-preview').zoom();
-    }
-  }
 
   addToCart(id: number) {
     this.cartService.AddProductToCart(id, this.quantityInput.nativeElement.value);

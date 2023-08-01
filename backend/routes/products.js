@@ -8,11 +8,10 @@ const isLogged = require("../routes/users");
 //in /api/products
 router.get('/', isLogged, function(req, res) {
 
-        
-    console.log(req.query.page);
-    // console.log(req.);
-    // console.log(req.);
-    // console.log(req.);
+    if(req.user){
+        res.render()
+    }
+
     let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; //recupero valore della richiesta e controllo che non sa vuota
     const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; //setta limite di items per pagina
 
@@ -64,7 +63,7 @@ router.get('/', isLogged, function(req, res) {
 
 router.get('/:prodId', (req, res) => {
   let productId = req.params.prodId;
-  database.table('products as p') //joijn di prodotti e categorie
+  database.table('products as p') //join di prodotti e categorie
       .join([
           {
               table: "categories as c",

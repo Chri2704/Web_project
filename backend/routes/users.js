@@ -7,6 +7,53 @@ const config = require('../config/helpers');
 const cookieParser = require('cookie-parser');
 const { promisify } = require('util');
 
+
+router.get('/', function(req, res){
+
+    database.table('users as u').withFields([
+        'u.id',
+        'u.username',
+        'u.password',
+        'u.email',
+        'u.role',
+
+    ]).getAll()
+    .then(users =>{ //dopo una get viene usata sempre la then -> se entro nell'if definisco un json con ilcount dei prodotti e i prodotti
+        if(users.length > 0){
+            res.status(200).json({
+                count: users.length,
+                userData: users
+            });
+
+        }else{ //altrimenti stampo errore
+            res.json({message: 'no users founds'})
+        }
+    }).catch(err => console.log(err));
+
+});
+
+router.post('/delete', function(req,res){
+    const idFront = req.body.id;
+
+    database.table('users')
+    .filter({id : idFront})
+    .remove()
+    .then(deleted => {
+      if (deleted) {
+        console.log('Utente eliminato con successo');
+        res.status(200).json({ message: 'Utente eliminato con successo' });
+      } else {
+        console.log('Nessun utente trovato con questo ID');
+        res.status(404).json({ message: 'Nessun utente trovato con questo ID' });
+      }
+    })
+    .catch(err => {
+      console.error('Errore durante l\'eliminazione dell\'utente:', err);
+      res.status(500).json({ message: 'Errore durante l\'eliminazione dell\'utente' });
+    });
+});
+
+
 //se non esistono i dati insert user 
 router.post("/register", async (req, res) => {
     try {

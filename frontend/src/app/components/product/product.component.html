@@ -9,8 +9,12 @@
             <li><a href="#">Home</a></li>
             <li><a href="#">All Categories</a></li>
             <li><a href="#">Accessories</a></li>
-            <li><a href="#">{{product.category}}</a></li>
-            <li class="active">{{product.name}}</li>
+            <div *ngIf="product">
+              <!-- Utilizza product.category solo se product è definito -->
+              <li><a href="#">{{product?.category}}</a></li>
+            </div>
+            
+            <li class="active"><a href="#">{{product?.name}}</a> </li>
           </ul>
         </div>
       </div>
@@ -28,41 +32,36 @@
       <div class="row d-flex">
 
 
-        <!-- Product main img -->
-        <div class="col-md-5 col-md-push-2">
-          <div id="product-main-img">
-            <ng-template [ngIf]="thumbimages.length === 0">
-              <div class="product-preview">
-                <img [src]="product.image" alt="{{product.name}}">
-              </div>
-            </ng-template>
-            <ng-template [ngIf]="thumbimages.length > 0">
-              <div class="product-preview" *ngFor="let t of thumbimages">
-                <img [src]="t" alt="{{product.name}}">
-              </div>
-            </ng-template>
-          </div>
+<!-- Product main img Carousel -->
+<div class="col-md-5 col-md-push-2">
+  <div id="product-main-img-carousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicatori della slideshow -->
+    <ol class="carousel-indicators">
+      <li data-bs-target="#product-main-img-carousel" *ngFor="let t of thumbimages; let i = index" [attr.data-bs-slide-to]="i" [ngClass]="{'active': i === 0}"></li>
+    </ol>
+
+    <!-- Slides della slideshow -->
+    <div class="carousel-inner">
+      <ng-container *ngFor="let t of thumbimages; let i = index">
+        <div class="carousel-item" [ngClass]="{'active': i === 0}">
+          <img [src]="t" alt="{{product.name}}" class="d-block w-100">
         </div>
-        <!-- /Product main img -->
+      </ng-container>
+    </div>
+
+    <!-- Controlli della slideshow -->
+    <a class="carousel-control-prev" href="#product-main-img-carousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#product-main-img-carousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
+</div>
+<!-- /Product main img Carousel -->
   
-        <!-- Product thumb imgs -->
-        <div class="col-md-2  col-md-pull-5 ">
-         <ng-template [ngIf]="thumbimages.length > 0">
-           <div id="product-imgs">
-             <div *ngFor="let t of thumbimages" class="product-preview">
-               <img [src]="t" alt="{{product.name}}">
-             </div>
-           </div>
-         </ng-template>
-          <ng-template [ngIf]="thumbimages.length === 0">
-            <div id="product-imgs">
-              <div class="product-preview">
-                <img [src]="product.image" alt="{{product.name}}">
-              </div>
-            </div>
-          </ng-template>
-        </div>
-        <!-- /Product thumb imgs -->
   
         <!-- Product details -->
         <div class="col-md-5">
@@ -85,9 +84,9 @@
             <p>{{product?.description}}</p>
   
   
-            <div class="add-to-cart">
-              <div class="qty-label">
-                Qty
+            <div>
+              <div>
+                Quantity
                 <div class="input-number">
                     <!-- quantity viene visto dal @viewChild  -->
                   <input #quantity [max]="product?.quantity" [min]="product?.quantity >= 1 ? product?.quantity : 0"
@@ -95,10 +94,15 @@
                   <span (click)="Increase()" class="qty-up">+</span>
                   <span (click)="Decrease()" class="qty-down">-</span>
                 </div>
+                <br>
               </div>
+              <div  class="add-to-cart">
+                <div  class="qty-label">
               <button (click)="addToCart(product?.id)" *ngIf="product?.quantity >= 1" class="add-to-cart-btn"><i
                 class="fa fa-shopping-cart"></i>Add To Cart
               </button>
+            </div>
+          </div>
             </div>
   
             <ul class="product-links">
@@ -118,6 +122,8 @@
         </div>
         <!-- /Product details -->
   
+
+        
         <!-- Product tab -->
 
         <!-- /product tab -->
