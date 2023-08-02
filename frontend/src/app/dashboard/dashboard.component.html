@@ -1,6 +1,3 @@
-
-
-
 <div class="accordion" id="accordionExample">
     <div class="accordion-item p-0">
       <h2 class="accordion-header" id="headingOne">
@@ -22,7 +19,7 @@
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">Encrypted password</th>
-                        <th scope="col">Role</th>
+                        <th scope="col">Ban</th>
                     </tr>
                     </thead>
                         <tbody>
@@ -33,7 +30,7 @@
                                         <td>{{ user.username }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.password }}</td>
-                                        <td><button (click)="deleteUser(user.id)">elimina</button></td>
+                                        <td><button (click)="deleteUser(user.id)" class="btn btn-danger btn-sm  ">elimina</button></td>
                                 </tr>
                             </ng-container>
                         </tbody>

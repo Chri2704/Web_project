@@ -1,32 +1,46 @@
+		
+		<style>
+			a {
+				text-decoration: none;
+			}
+
+			.header-links li a {
+    color: #f80909;
+}
+			
+
+			/* Style when the cursor hovers over the link */
+		</style>
+		
 		<!-- HEADER -->
+		
 		<header>
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> +39-3459862394</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> angilerichristian439@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i>  Piazza dell'Università, 1</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
 						<!-- dropdown -->
 						<div *ngIf="responseData">
 							<div class="dropdown">
-								<button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-								  {{userData.username}}
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+									{{userData.username}}
 								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
 								  <li><a class="dropdown-item" href="#"></a>Profilo</li>
 								  <li><button (click)="logout()"><a class="dropdown-item">logout</a></button></li>
-								  
+								  <li *ngIf="userData.role == 777"><hr class="dropdown-divider"></li>
 								  <li *ngIf="userData.role == 777"><button ><a routerLink="/dashboard" class="dropdown-item">Dashboard</a></button></li>
 								</ul>
 							  </div>
 						</div>
 						<div *ngIf="!responseData">
-							<li><button><i class="fa fa-user-o"></i> <a routerLink="/register">Register</a></button></li>
-							<li><button><i class="fa fa-user-o"></i> <a routerLink="/login">Login</a></button></li>
+							<li><button class="btn btn-light btn btn-outline-dark btn-sm"><i class="fa fa-user-o"></i> <a routerLink="/register">Register</a></button></li>
+							<li><button  class="btn btn-light btn btn-outline-dark btn-sm"><i class="fa fa-user-o"></i> <a routerLink="/login">Login</a></button></li>
 						</div>
 
 					</ul>
@@ -85,7 +99,7 @@
 									<a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
-										<div>
+										<div class="qty">
 											{{cartData.data[0].numInCart!== 0 ? cartData.data.length :0}}
 										</div>
 									</a>
@@ -121,14 +135,7 @@
 								  </div>
 								<!-- /Cart -->
 
-								<!-- Menu Toogle -->
-								<div class="menu-toggle">
-									<a href="#">
-										<i class="fa fa-bars"></i>
-										<span>Menu</span>
-									</a>
-								</div>
-								<!-- /Menu Toogle -->
+
 							</div>
 						</div>
 						<!-- /ACCOUNT -->

@@ -69,7 +69,7 @@ responseData:any;
       },
       error: (error) => {
         // Gestisci gli errori qui
-        console.error('Errore:', error);
+        console.error('token:', error);
       }
     });
   }
@@ -79,9 +79,8 @@ logout(){
     next:(response) => {
       // Gestisci la risposta qui
       console.log('Risposta:', response);
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        window.location.reload();
-      });
+      this.router.navigateByUrl('/', { skipLocationChange: true })
+      window.location.reload();
     },
     error:(error) => {
       // Gestisci gli errori qui

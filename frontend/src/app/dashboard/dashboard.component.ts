@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   
     ngOnInit(): void {
       // Effettua la richiesta GET all'endpoint del server
-      this.http.get<any>('http://localhost:3000/api/users/') // Assumi che il tuo server sia in ascolto su localhost:3000
+      this.http.get<any>('http://localhost:3000/api/users/getAll') // Assumi che il tuo server sia in ascolto su localhost:3000
         .subscribe({
           next: (response: any) => {
             // Gestisci la risposta qui

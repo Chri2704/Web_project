@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const { promisify } = require('util');
 
 
-router.get('/', function(req, res){
+router.get('/getAll', function(req, res){
 
     database.table('users as u').withFields([
         'u.id',

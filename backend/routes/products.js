@@ -8,10 +8,6 @@ const isLogged = require("../routes/users");
 //in /api/products
 router.get('/', isLogged, function(req, res) {
 
-    if(req.user){
-        res.render()
-    }
-
     let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; //recupero valore della richiesta e controllo che non sa vuota
     const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; //setta limite di items per pagina
 
@@ -46,10 +42,12 @@ router.get('/', isLogged, function(req, res) {
     .sort({id:.1}) //decrescente
     .getAll()
     .then(prods =>{ //dopo una get viene usata sempre la then -> se entro nell'if definisco un json con ilcount dei prodotti e i prodotti
+        console.log(prods);
         if(prods.length > 0){
             res.status(200).json({
                 count: prods.length,
                 products: prods
+
             });
 
         }else{ //altrimenti stampo errore

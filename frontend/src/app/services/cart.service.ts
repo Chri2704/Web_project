@@ -224,7 +224,7 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
         this.CalculateTotal();
 
         this.cartDataClient.total = this.cartDataServer.total;
-
+        
         localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
       }
     }
