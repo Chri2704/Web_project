@@ -74,71 +74,75 @@ router.get('/:id', async (req, res) => {
 //POSTper creazione di un nuovo ordine
 
 router.post('/new', async (req, res) => {
-
+    
+    //prendo dal body userId e un array di oggetti che contengono id prodotto e numero nel carrello
 
     let {userId, products} = req.body;
     console.log(userId);
     console.log(products);
 
+    // se utente ha un id
      if (userId !== null && userId > 0) {
+        //prendo id e lo metto in orders
         database.table('orders')
             .insert({
                 user_id: userId
-            }).then((newOrderId) => {
-
-            if (newOrderId > 0) {
-                //per ogni prodotto viene recuperata la quantità in modo da sottrarre quella del nuovo ordine 
-                products.forEach(async (p) => {
-
-                        let data = await database.table('products').filter({id: p.id}).withFields(['quantity']).get();
+            }).then((newOrderId) => { //successivamente creo nuovo id e gli accedo con insertId
+                if (newOrderId.insertId > 0) {
+                    //per ogni prodotto viene recuperata la quantità in modo da sottrarre quella del nuovo ordine 
+                    products.forEach(async (p) => {
 
 
+                            let data = await database.table('products').withFields(['quantity']).get(); //recupero la quantità dal db prodotti
 
-                    let inCart = parseInt(p.incart);
 
-                    // Deduct the number of pieces ordered from the quantity in database
+                        let inCart = parseInt(p.inCart); //questa è la quantità nel carrello 
 
-                    if (data.quantity > 0) {
-                        data.quantity = data.quantity - inCart;
+                    
+                        //controllo la quantità disponibile e scalo la quantità del cart e successivamente controllo se viene azzerata la quantità disponibile
+                        if (data.quantity > 0) {
+                            data.quantity = data.quantity - inCart;
 
-                        if (data.quantity < 0) {
+                            if (data.quantity < 0) {
+                                console.log("sforato, prodotti finiti")
+                                data.quantity = 0;
+                            }
+
+                        } else {
+                            console.log("prodotti terminati")
                             data.quantity = 0;
                         }
 
-                    } else {
-                        data.quantity = 0;
-                    }
-
-                    // Insert order details w.r.t the newly created order Id
-                    database.table('orders_details')
-                        .insert({ //inserisco nuovo record nella tabella con i seguenti campi
-                            order_id: newOrderId,
-                            product_id: p.id,
-                            quantity: inCart
-                        }).then(newId => {
-                        database.table('products')
-                            .filter({id: p.id})
-                            .update({ //aggiorna quantità
-                                quantity: data.quantity
-                            }).then(successNum => {
+                        // Inserisco nel db orders details l'id dell'ordine, del prodotto e la quantità del carrello per un riepilogo
+                        database.table('orders_details')
+                            .insert({ //inserisco nuovo record nella tabella con i seguenti campi
+                                order_id: newOrderId.insertId,
+                                product_id: p.id,
+                                quantity: inCart
+                            }).then(newId => {// aggiorno quantità disp sottranedo quella dell'ordine
+                            database.table('products')
+                                .filter({id: p.id})
+                                .update({ //aggiorna quantità
+                                    quantity: data.quantity
+                                }).then(successNum => {
+                            }).catch(err => console.log(err));
                         }).catch(err => console.log(err));
-                    }).catch(err => console.log(err));
-                });
+                    });
 
-            } else {
-                res.json({message: 'New order failed while adding order details', success: false});
-            }
-            res.json({
-                message: `Order successfully placed with order id ${newOrderId}`,
+                } else {
+                   return res.json({message: 'New order failed while adding order details', success: false});
+                }
+            res.json({ //messaggio di risposta nel quale passo i dati
+                message: `Order successfully placed with order id ${newOrderId.insertId}`,
                 success: true,
-                order_id: newOrderId,
+                order_id: newOrderId.insertId,
                 products: products
             })
-        }).catch(err => res.json(err));
+        }).catch(err => {return(res.json(err))});
     }
 
     else {
-        res.json({message: 'New order failed', success: false});
+        return res.json({message: 'New order failed', success: false});
     }
 
 });
@@ -147,7 +151,7 @@ router.post('/new', async (req, res) => {
 router.post('/payment', (req, res) =>{
     setTimeout(()=>{
         res.status(200).json({success:true});
-    }, 3000);
+    }, );
 });
 
 

@@ -164,7 +164,7 @@ router.get("/isLogged", async (req, res, next) => {
           req.cookies.userSave,
           config.env.JWT_SECRET
         );
-        console.log(decoded);
+        console.log("dati decodificati dal cookie", decoded);
   
         // 2. Controlla se l'id dell'utente esiste ancora nel database
         const users = await database.table('users').getAll();

@@ -5,6 +5,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, CurrencyPipe  } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 interface UserData {
   id: number;
@@ -37,6 +38,7 @@ responseData:any;
   constructor(public cartService: CartService,
               private http:HttpClient,
               private router: Router,
+              private toastr: ToastrService
               ){
                 this.cartTotal = 0;
               }
@@ -44,6 +46,21 @@ responseData:any;
    this.cartService.cartTotal$.subscribe(total => this.cartTotal = total);
    this.cartService.cartData$.subscribe(data => this.cartData = data);
    this.checkIsLogged();
+  }
+
+  showSuccess() {
+    this.toastr.error('Si è verificato un errore!', 'Errore', {
+      timeOut: 5000, // Tempo in millisecondi per la durata della notifica (5 secondi)
+      progressBar: true, // Mostra una barra di avanzamento
+      closeButton: true, // Mostra il pulsante di chiusura
+      positionClass: 'toast-top-left', // Posizione della notifica
+      extendedTimeOut: 2000, // Tempo extra in millisecondi se l'utente passa il mouse sopra la notifica
+      tapToDismiss: false, // Richiede un clic per chiudere la notifica
+      enableHtml: true, // Abilita l'uso di HTML nei messaggi
+      toastClass: 'toast toast-error', // Classe CSS personalizzata per lo stile della notifica
+      titleClass: 'toast-title', // Classe CSS personalizzata per lo stile del titolo
+      messageClass: 'toast-message' // Classe CSS personalizzata per lo stile del messaggio
+    });
   }
 
   checkIsLogged() {
@@ -77,6 +94,7 @@ responseData:any;
 logout(){
   this.http.get<any>('http://localhost:3000/api/users/logout', { withCredentials: true }).subscribe({
     next:(response) => {
+      localStorage.removeItem('cart');
       // Gestisci la risposta qui
       console.log('Risposta:', response);
       this.router.navigateByUrl('/', { skipLocationChange: true })

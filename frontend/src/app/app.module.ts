@@ -18,13 +18,9 @@ import { ThankyouComponent } from './components/thankyou/thankyou.component'; //
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
-} from '@abacritt/angularx-social-login';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -48,30 +44,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserAnimationsModule,
     MatSlideToggleModule,
     HttpClientModule,
-    SocialLoginModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ],
-  providers: [    {
-    provide: 'SocialAuthServiceConfig',
-    useValue: {
-      autoLogin: false,
-      providers: [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            'clientId'
-          )
-        },
-        {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider('clientId')
-        }
-      ],
-      onError: (err) => {
-        console.error(err);
-      }
-    } as SocialAuthServiceConfig,
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

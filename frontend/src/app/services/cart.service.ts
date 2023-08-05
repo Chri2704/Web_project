@@ -126,9 +126,11 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     this.productService.getSingleProduct(id).subscribe(prod=>{
       //se carrello vuoto
       console.log('prodotto aggiunto : ',prod)
-      console.log('cartDataClient.data 0: ', this.cartDataServer.data[0]);
+      console.log('cartDataServer.data 0: ', this.cartDataServer.data[0]);
       
-      if(this.cartDataServer.data[0].product === undefined){
+
+      //ho cambiato la condizione dell'if: prima "".product === undefined ma dato che veniva inizializzato nel costrutto non erntrava mai. adesso "".numInCart == 0 che è quando è vuoto
+      if(this.cartDataServer.data[0].numInCart == 0){
         console.log('ao')
         this.cartDataServer.data[0].product = prod;
         console.log('quantity', quantity)
@@ -162,7 +164,7 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
           
               this.cartDataClient.prodData[index].inCart = this.cartDataServer.data[index].numInCart;
 
-//gli si aggiorna il totale a me non va
+      //gli si aggiorna il totale a me non va
 
               // this.CalculateTotal();
               // this.cartDataClient.total = this.cartDataClient.total;
@@ -294,8 +296,11 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     this.http.post<OrderResponse>(`${this.serverURL}orders/payment`, null).subscribe((res:{success : boolean}) =>{
 
       if(res.success){
+        //ripulisco il CartDataServer
         this.resetServerData();
+        //chiamata per creazione di nuovi ordini
         this.http.post<OrderResponse>(`${this.serverURL}orders/new`, {
+          //definisco i tipi che il backend recupera
           userId: userId,
           products: this.cartDataClient.prodData
         }).subscribe((data: OrderResponse) => {
@@ -316,7 +321,6 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
                 this.cartDataClient = {total:0, prodData: [{inCart: 0, id: 0}]};
                 this.cartTotal$.next(0);
                 localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
-
               });
             }
             
@@ -337,7 +341,7 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
         }]
       };
 
-      this.cartData$.next({...this.cartDataServer});
+      this.cartData$.next({...this.cartDataServer}); //viene emesso in cartData il nuovo valore di cartDataServer cioè il carrello vuoto, in questo modo viene notificato a tutti quelli in ascolto
     }
 
 

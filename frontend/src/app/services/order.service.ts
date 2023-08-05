@@ -19,7 +19,8 @@ export class OrderService{
        
     }
     getSingleOrder(orderId: number){
-        return this.http.get<ProductResponseModel[]>(this.server_url + '/orders' +orderId).toPromise(); //converte l'observable in una promessa
+        //return this.http.get<ProductResponseModel[]>(this.server_url + 'orders' +orderId).toPromise(); //converte l'observable in una promessa
+        return this.http.get<ProductResponseModel[]>(this.server_url + 'orders/' +orderId).toPromise();
     }
 }
 
