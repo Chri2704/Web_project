@@ -54,7 +54,8 @@ export class RegisterComponent implements OnInit {
           // se la risposta non è un errore stampa il messaggio e riporta nella homepage 
           next:(response: any) => {
             console.log('Registrazione avvenuta con successo!', response);
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
+            
           },
           error:(error: any) => {
             console.error('Errore durante la registrazione:', error);

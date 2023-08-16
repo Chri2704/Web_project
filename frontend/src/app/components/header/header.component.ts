@@ -97,13 +97,14 @@ logout(){
       localStorage.removeItem('cart');
       // Gestisci la risposta qui
       console.log('Risposta:', response);
-      this.router.navigateByUrl('/', { skipLocationChange: true })
       window.location.reload();
+      window.location.href = "/";
     },
     error:(error) => {
       // Gestisci gli errori qui
       console.error('Errore:', error);
     }
   });
+  this.router.navigateByUrl('/', { skipLocationChange: true })
 }
 }
