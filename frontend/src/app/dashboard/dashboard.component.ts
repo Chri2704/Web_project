@@ -11,6 +11,7 @@ export class DashboardComponent implements OnInit {
 
   
   users: any[] = [];
+  orders: any[] = [];
 
   constructor(private http: HttpClient,
     private router: Router) { }
@@ -29,6 +30,20 @@ export class DashboardComponent implements OnInit {
             console.error('Errore durante la richiesta:', error);
           }
         });
+
+
+              this.http.get<any>('http://localhost:3000/api/orders/getAllOrders') // Assumi che il tuo server sia in ascolto su localhost:3000
+        .subscribe({
+          next: (response: any) => {
+            // Gestisci la risposta qui
+            this.orders = response.ordersData; // Salva i dati degli utenti nella variabile users
+            console.log('Dati utenti:', this.orders);
+          },
+          error: (error: any) => {
+            // Gestisci gli errori qui
+            console.error('Errore durante la richiesta:', error);
+          }
+        });
     }
 
     deleteUser(id: number){
@@ -36,6 +51,26 @@ export class DashboardComponent implements OnInit {
 
       if(result){
         this.http.post('http://localhost:3000/api/users/delete', { id: id }).subscribe({ //devo passare l'id in formato json
+          next: (response: any) => {
+            // Gestisci la risposta qui
+            window.location.reload();
+          },
+          error: (error: any) => {
+            // Gestisci gli errori qui
+            console.error('Errore durante la richiesta:', error);
+          }
+        })
+      }else{
+        console.log('hai premuto annulla');
+      }
+    }
+
+
+        deleteOrders(id: number){
+      const result = window.confirm('Sei sicuro di voler eliminare questo elemento dell\'ordine?');
+
+      if(result){
+        this.http.post('http://localhost:3000/api/orders/delete', { id: id }).subscribe({ //devo passare l'id in formato json
           next: (response: any) => {
             // Gestisci la risposta qui
             window.location.reload();

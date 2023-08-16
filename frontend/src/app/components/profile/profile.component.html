@@ -1,1 +1,103 @@
-<p>profile works!</p>
+<!-- <html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/auth/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="avatar-ctn">
+                        <img src="./avatar.png" class="avatar" alt="user profile picture">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">John Doe</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quasi
+                            natus ullam explicabo vitae consectetur molestias aut esse, officiis labore sapiente
+                            architecto numquam iste minus similique quos mollitia reprehenderit delectus?</p>
+                        <a href="#" class="btn btn-primary">john@email.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-8">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Profile Page
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Hey John welcome back
+                        </h5>
+                        <p class="card-text">
+                            This is your profile where you can add all information about yourself
+                        </p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Node MySQL project
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+    </script>
+</body>
+
+</html> -->
+
+
+<div class="row justify-content-center">
+    <div class="column text-center"> <!-- Aggiunta della classe "text-center" per centrare il contenuto -->
+        <h1>Profile page</h1>
+        <div class="card">
+            <div>
+                <img src="./assets/img/download (2).png" style="display: block; margin-left: auto; margin-right: auto; width: 30% ; border-radius: 15px;" alt="">
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-primary">Upload image</button>
+            </div>
+            <br>
+          <h2>Username : {{userData.username}}</h2>
+          <p *ngIf="userData.role == 555">Ruolo : User</p>
+          <p *ngIf="userData.role == 777">Ruolo : Admin</p>
+          <p class="title">Email : <a href="mailto:{{userData.email}}?">{{userData.email}}</a><p>
+          <p class="title">Password : {{userData.password}}</p>
+          <p><button class="btn btn-primary" >Change password</button></p>
+          <p><button class="btn btn-danger btn-lg" >Delete account</button></p>
+        </div>
+    </div>
+</div>

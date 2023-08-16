@@ -3,7 +3,7 @@ const router = express.Router();
 const {database} = require('../config/helpers'); //importa oggetto data base dal **
 
 /* GET All orders. */
-router.get('/', (req, res) => { //in /api/order vado a prendere tutti gli ordini
+router.get('/getAllOrders', (req, res) => { //in /api/order vado a prendere tutti gli ordini
     database.table('orders_details as od') //join tra orders e orders_detail
         .join([
             {
@@ -24,12 +24,37 @@ router.get('/', (req, res) => { //in /api/order vado a prendere tutti gli ordini
         .getAll()
         .then(orders => {
             if (orders.length > 0) {
-                res.json(orders);       //ritorna la risposta in json degl ordini presenti sul db
+                res.status(200).json({
+                    count: orders.length,
+                    ordersData: orders     //ritorna la risposta in json degl ordini presenti sul db
+                });
             } else {
                 res.json({message: "No orders found"});
             }
 
         }).catch(err => res.json(err));
+});
+
+
+router.post('/delete', function(req,res){
+    const idFront = req.body.id;
+
+    database.table('orders')
+    .filter({id : idFront})
+    .remove()
+    .then(deleted => {
+      if (deleted) {
+        console.log('ordine eliminato con successo');
+        res.status(200).json({ message: 'ordine eliminato con successo' });
+      } else {
+        console.log('Nessun ordine trovato con questo ID');
+        res.status(404).json({ message: 'Nessun ordine trovato con questo ID' });
+      }
+    })
+    .catch(err => {
+      console.error('Errore durante l\'eliminazione dell\'ordine:', err);
+      res.status(500).json({ message: 'Errore durante l\'eliminazione dell\'ordine' });
+    });
 });
 
 // Get Single Order trough id:

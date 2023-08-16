@@ -21,6 +21,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
     ProfileComponent,
     RegisterComponent,
     DashboardComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,

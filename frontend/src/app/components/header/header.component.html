@@ -5,8 +5,19 @@
 			}
 
 			.header-links li a {
-    color: #f80909;
-}
+    			color: #f80909;
+			}
+
+			.custom-dropdown .btn {
+				background: none;
+				color: inherit;
+			}
+
+			.custom-dropdown .dropdown-menu {
+				background: none;
+				color: inherit;
+				/* Rimuovi altri stili predefiniti se necessario */
+			}
 			
 
 			/* Style when the cursor hovers over the link */
@@ -31,12 +42,12 @@
 									{{userData.username}}
 								</button>
 								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-								  <li><a class="dropdown-item" href="#"></a>Profilo</li>
-								  <li><button (click)="logout()"><a routerLink="/" class="dropdown-item">logout</a></button></li>
-								  <li *ngIf="userData.role == 777"><hr class="dropdown-divider"></li>
-								  <li *ngIf="userData.role == 777"><button ><a routerLink="/dashboard" class="dropdown-item">Dashboard</a></button></li>
+									<li><a class="dropdown-item" routerLink="/profile">Profilo</a></li>
+									<li><button (click)="logout()" class="dropdown-item">logout</button></li>
+									<li *ngIf="userData.role == 777"><hr class="dropdown-divider"></li>
+									<li *ngIf="userData.role == 777"><button><a routerLink="/dashboard" class="dropdown-item">Dashboard</a></button></li>
 								</ul>
-							  </div>
+							</div>
 						</div>
 						<div *ngIf="!responseData">
 							<li><button class="btn btn-light btn btn-outline-dark btn-sm"><i class="fa fa-user-o"></i> <a routerLink="/register">Register</a></button></li>
@@ -167,11 +178,11 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav py-3">
-						<li class="active"><a routerLink="/">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Contact us</a></li>
-					</ul>
+						<li><a routerLink="/" routerLinkActive="active">Home</a></li>
+						<li><a href="#" routerLinkActive="active">Hot Deals</a></li>
+						<li><a href="#" routerLinkActive="active">Categories</a></li>
+						<li><a routerLink="/about_us" routerLinkActive="active">About us</a></li>
+					  </ul>
 					<!-- /NAV -->
 				</div>
 				<!-- /responsive-nav -->

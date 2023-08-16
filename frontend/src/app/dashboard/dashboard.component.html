@@ -4,50 +4,77 @@
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           Users
         </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-        <div class="accordion-body p-0">  
-            
-            <p *ngIf="users.length === 0">Nessun utente trovato.</p>
-
-            <ul *ngIf="users.length > 0">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Encrypted password</th>
-                        <th scope="col">Ban</th>
-                    </tr>
-                    </thead>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body p-0">  
+              <p *ngIf="users.length === 0">Nessun utente trovato.</p>
+                <ul *ngIf="users.length > 0">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Encrypted password</th>
+                            <th scope="col">Ban</th>
+                        </tr>
+                      </thead>
                         <tbody>
                             <ng-container *ngFor="let user of users; let i =index">
-                                <tr *ngIf="user.role == 555">
-                                    <th scope="row">{{i+1}}</th>
-                                        <td>{{ user.id }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.password }}</td>
-                                        <td><button (click)="deleteUser(user.id)" class="btn btn-danger btn-sm  ">elimina</button></td>
-                                </tr>
+                              <tr *ngIf="user.role == 555">
+                                <th scope="row">{{i+1}}</th>
+                                  <td>{{ user.id }}</td>
+                                  <td>{{ user.username }}</td>
+                                  <td>{{ user.email }}</td>
+                                  <td>{{ user.password }}</td>
+                                  <td><button (click)="deleteUser(user.id)" class="btn btn-danger btn-sm  ">elimina</button></td>
+                              </tr>
                             </ng-container>
                         </tbody>
-                </table>
-            </ul>
+                  </table>
+              </ul>
+          </div>
         </div>
-      </div>
     </div>
-    <div class="accordion-item">
+    <div class="accordion-item p-0">
       <h2 class="accordion-header" id="headingTwo">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
           Orders
         </button>
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <div class="accordion-body p-0">  
+          <p *ngIf="orders.length === 0">Nessun ordine trovato.</p>
+          <ul *ngIf="orders.length > 0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">price</th>
+                      <th scope="col">username</th>
+                      <th scope="col">delete</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                      <ng-container *ngFor="let order of orders; let i =index">
+                        <tr>
+                          <th scope="row">{{i+1}}</th>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.title }}</td>
+                            <td>{{ order.description }}</td>
+                            <td>€ {{ order.price }}</td>
+                            <td>{{ order.username }}</td>
+                            <td><button (click)="deleteOrders(order.id)" class="btn btn-danger btn-sm  ">elimina</button></td>
+                        </tr>
+                      </ng-container>
+                  </tbody>
+            </table>
+
+          </ul>
         </div>
       </div>
     </div>
