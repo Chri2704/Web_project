@@ -21,7 +21,7 @@ module.exports = {
 const expiresInDays = 90; // Durata dell'accesso in giorni
 const expiresInMilliseconds = expiresInDays * 24 * 60 * 60 * 1000; // Conversione in millisecondi
 
-
+//modulo per la gestione di JWT per accesso utente
 module.exports.env = {
     JWT_SECRET: 'fnorn483onf3oihw9fh39qr9f29',
     JWT_EXPIRE_IN: expiresInMilliseconds,

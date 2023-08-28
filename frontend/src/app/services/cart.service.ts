@@ -29,7 +29,6 @@ private cartDataClient: CartModelPublic = {
 };
 
 //variabile per conservare le info del cart nello storage locale del server
-//in cart model product viene definito productModelServer
 private cartDataServer: CartModelServer = {
   total: 0,
   data: [{
@@ -131,7 +130,6 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
 
       //ho cambiato la condizione dell'if: prima "".product === undefined ma dato che veniva inizializzato nel costrutto non erntrava mai. adesso "".numInCart == 0 che è quando è vuoto
       if(this.cartDataServer.data[0].numInCart == 0){
-        console.log('ao')
         this.cartDataServer.data[0].product = prod;
         console.log('quantity', quantity)
         this.cartDataServer.data[0].numInCart = quantity !== undefined ? quantity : 1;
@@ -164,12 +162,10 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
           
               this.cartDataClient.prodData[index].inCart = this.cartDataServer.data[index].numInCart;
 
-      //gli si aggiorna il totale a me non va
 
               // this.CalculateTotal();
               // this.cartDataClient.total = this.cartDataClient.total;
           localStorage.setItem('cart',JSON.stringify(this.cartDataClient));
-          //to do
         }else{
           this.cartDataServer.data.push({
             numInCart: 1,
@@ -184,7 +180,6 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
               this.cartDataClient.total = this.cartDataClient.total;
           localStorage.setItem('cart',JSON.stringify(this.cartDataClient));
 
-          //to do
           this.CalculateTotal();
           this.cartDataClient.total = this.cartDataClient.total; //aggiorno il totale
           localStorage.setItem('cart',JSON.stringify(this.cartDataClient)); //setto il localStorage cart con i dati di cartDataClient
@@ -206,11 +201,11 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     let data = this.cartDataServer.data[index];
 
     if(increase){
-      data.numInCart < data.product.quantity ? data.numInCart++ : data.product.quantity;
+      data.numInCart < data.product.quantity ? data.numInCart++ : data.product.quantity;//controllo quantità nel db
       this.cartDataClient.prodData[index].inCart = data.numInCart;
       this.CalculateTotal();
       this.cartDataClient.total = this.cartDataServer.total;
-      this.cartData$.next({...this.cartDataServer});
+      this.cartData$.next({...this.cartDataServer});//emetto nuovi valori
       localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
       this.cartData$.next({...this.cartDataServer});
     }else{
@@ -232,7 +227,7 @@ cartData$ = new BehaviorSubject<CartModelServer>(this.cartDataServer);//emette v
     }
   }
 
-  CalculateSubTotal(index: number): number {
+  CalculateSubTotal(index: number): number { //totale numero prodotti per elemento
     let subTotal = 0;
 
     let p = this.cartDataServer.data[index];

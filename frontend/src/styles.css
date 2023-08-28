@@ -4,12 +4,40 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.dropdown-menu {
-    position: absolute;
-    width: 100%;
-    background-color: #f8f9fa;
-    border: none;
-    padding: 0;
-  }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
-  
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: #f0f0f0; /* Aggiungi il colore di sfondo grigio */
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-bottom: 0;
+  border-radius: 10px 10px 10px 10px;
+}
+
+
+/* Stile per gli item del menu */
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Cambia il colore dell'item al passaggio del mouse */
+.dropdown-item:hover {
+  color: #ff0808; /* Cambia il colore al passaggio del mouse */
+  background-color: #f0f0f0;
+}
+
+.dropdown-content hr {
+  border-top: 1px solid gray;
+  margin: 5px 0;
+}
+

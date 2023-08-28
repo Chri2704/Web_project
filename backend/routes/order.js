@@ -35,7 +35,7 @@ router.get('/getAllOrders', (req, res) => { //in /api/order vado a prendere tutt
         }).catch(err => res.json(err));
 });
 
-
+//eliminazione di un ordine dalla dashboard admin
 router.post('/delete', function(req,res){
     const idFront = req.body.id;
 

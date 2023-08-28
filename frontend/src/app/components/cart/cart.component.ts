@@ -10,7 +10,7 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent {
 
-  cartData : CartModelServer= {
+  cartData : CartModelServer= {//inizializzo
     total: 0,
     data: [{
       product:{} as productModelServer,
