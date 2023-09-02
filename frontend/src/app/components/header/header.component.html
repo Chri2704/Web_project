@@ -58,6 +58,7 @@
 									<li><button (click)="logout()" class="dropdown-item" style="font-size: medium;">logout</button></li>
 									<hr *ngIf="userData.role == 777">
 									<li *ngIf="userData.role == 777"><button class="dropdown-item paolo" routerLink="/dashboard" style="font-weight: 800; font-size: larger;">Dashboard</button></li>
+									<li *ngIf="userData.role == 777"><button class="dropdown-item paolo" routerLink="/add_product" style="font-weight: 800; font-size: larger;">Aggiungi prodotto</button></li>
 
 								</ul>
 							</div>
@@ -157,7 +158,7 @@
 														  </div>
 													</div>
 
-													<div class="cart-list" *ngIf="cartData.data[0].numInCart == 0">
+													<div class="cart-list" *ngIf="cartData.data[0].numInCart == 0" style="text-align: center; margin-top: 5%;margin-bottom: 5%;">
 														il carrello è vuoto!
 													</div>
 

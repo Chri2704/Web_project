@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 
 //gestisce l'instradamento. per ogni route bisogna anche fare l'import sopra dell'oggetto e del percorso
@@ -19,6 +20,9 @@ const routes: Routes = [
   },
   {
     path: 'product/:id', component: ProductComponent
+  },
+  {
+    path: 'add_product', component: AddProductComponent
   },
   {
     path: 'cart', component: CartComponent

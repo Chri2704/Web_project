@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -22,6 +22,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AboutUsComponent } from './components/about-us/about-us.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
     RegisterComponent,
     DashboardComponent,
     AboutUsComponent,
+    AddProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
     MatSlideToggleModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     ToastrModule.forRoot(),
   ],
   providers: [],

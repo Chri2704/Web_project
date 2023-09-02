@@ -9,6 +9,7 @@ export interface productModelServer{
     price: number;
     quantity: number;
     images: string;
+    editMode?: boolean;
 }
 
 

@@ -8,8 +8,8 @@ const isLogged = require("../routes/users");
 //in /api/products
 router.get('/', isLogged, function(req, res) {
 
-    let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; //recupero valore della richiesta e controllo che non sa vuota
-    const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; //setta limite di items per pagina
+    let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; //recupero valore della richiesta e controllo che non sia vuota
+    const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 15; //setta limite di items per pagina
 
     let startValue;
     let endValue
@@ -20,7 +20,7 @@ router.get('/', isLogged, function(req, res) {
     endValue = page *limit;
     }else {
     startValue = 0;
-    endValue = 10;
+    endValue = 15;
     }
 
     //query al db : prendo prodotti e joino con categorie che hanno stesso id
@@ -57,8 +57,95 @@ router.get('/', isLogged, function(req, res) {
 
 });
 
-// GET prodotti singoli definendo l'id
 
+router.post("/add_product", async(req,res) =>{
+    try {
+        //recupero dal body password e email
+        const image = req.body.image;
+        const name = req.body.name;
+        const category = req.body.category;
+        const price = req.body.price;
+        const quantity = req.body.quantity;
+        const description = req.body.description;
+
+        //inserisco i dati nel db
+        database.table('products').insert({
+            title:name,
+            image:image,
+            cat_id:category,
+            price:price,
+            quantity:quantity,
+            description:description
+        })
+
+        res.status(200).json({ message: 'Dati inseriti nel database con successo!' });
+
+      } catch (err) {
+        res.status(400).json({ message: err.message });
+      }
+
+
+});
+
+router.post('/delete', function(req,res){
+    const idFront = req.body.id;
+
+    database.table('products')
+    .filter({id : idFront})
+    .remove()
+    .then(deleted => {
+      if (deleted) {
+        console.log('Prodotto eliminato con successo');
+        res.status(200).json({ message: 'Prodotto eliminato con successo' });
+      } else {
+        console.log('Nessun prodotto trovato con questo ID');
+        res.status(404).json({ message: 'Nessun prodotto trovato con questo ID' });
+      }
+    })
+    .catch(err => {
+      console.error('Errore durante l\'eliminazione del prodotto:', err);
+      res.status(500).json({ message: 'Errore durante l\'eliminazione del prodotto' });
+    });
+});
+
+
+router.post('/refresh_product', function(req,res){
+    try {
+        //recupero dal body password e email
+        const id = req.body.id;
+        const image = req.body.image;
+        const name = req.body.name;
+        const category = req.body.category;
+        const price = req.body.price;
+        const quantity = req.body.quantity;
+        const description = req.body.description;
+
+        console.log(id)
+        //inserisco i dati nel db
+        database.table('products')
+        .filter({ id: id }) // Filtra per l'ID del prodotto
+        .update({
+            image:image,
+            title:name,
+            description:description,
+            price:price,
+            quantity:quantity,
+        })
+        .then(updatedProduct => {
+            // Dopo l'aggiornamento, restituisci una risposta JSON con i dati aggiornati
+            res.status(200).json({ message: 'Dati aggiornati nel database con successo!', updatedProduct: updatedProduct });
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Errore durante l\'aggiornamento dei dati nel database.', error: err.message });
+        });
+      }catch (err) {
+        res.status(400).json({ message: err.message });
+      }
+});
+
+
+
+// GET prodotti singoli definendo l'id
 router.get('/:prodId', (req, res) => {
   let productId = req.params.prodId;
   database.table('products as p') //join di prodotti e categorie

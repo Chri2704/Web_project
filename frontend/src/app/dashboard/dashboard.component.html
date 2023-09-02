@@ -2,7 +2,7 @@
     <div class="accordion-item p-0">
       <h2 class="accordion-header" id="headingOne">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Users
+          <label for="" class="fw-bold">Users</label>
         </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -40,7 +40,7 @@
     <div class="accordion-item p-0">
       <h2 class="accordion-header" id="headingTwo">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Orders
+          <label for="" class="fw-bold">Orders</label>
         </button>
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -56,7 +56,7 @@
                       <th scope="col">Description</th>
                       <th scope="col">price</th>
                       <th scope="col">username</th>
-                      <th scope="col">delete</th>
+                      <th scope="col">Delete</th>
                   </tr>
                 </thead>
                   <tbody>
@@ -69,6 +69,64 @@
                             <td>€ {{ order.price }}</td>
                             <td>{{ order.username }}</td>
                             <td><button (click)="deleteOrders(order.id)" class="btn btn-danger btn-sm  ">elimina</button></td>
+                        </tr>
+                      </ng-container>
+                  </tbody>
+            </table>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item p-0">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <label for="" class="fw-bold">Products</label>
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body p-0">  
+          <p *ngIf="products.length === 0">Nessun prodotto trovato.</p>
+          <ul *ngIf="orders.length > 0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Immagine</th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Categoria</th>
+                      <th scope="col">Descrizione</th>
+                      <th scope="col">Prezzo</th>
+                      <th scope="col">Quantità</th>
+                      <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                      <ng-container *ngFor="let product of products; let i =index">
+                        <tr *ngIf="!product.editMode">
+                            <td>{{ product.id }}</td>
+                            <td><img [src]="product.image" alt="{{product.name}}" width="200px" height="150px" class="card-img-top" style="cursor:pointer"></td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>€{{ product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td><button (click)="modifyProducts(product.id)" class="btn btn-success btn-sm  ">Modifica</button></td>
+                            <td><button (click)="deleteProducts(product.id)" class="btn btn-danger btn-sm  ">Elimina</button></td>
+                            
+                        </tr>
+                        <tr *ngIf="product.editMode">
+
+                          <td>{{ product.id }}</td>
+                          <td><input type="text" class="form-control" [(ngModel)]="product.image"></td>
+                          <td><input type="text" class="form-control" [(ngModel)]="product.name"></td>
+                          <td>{{ product.category }}</td>
+                          <td><input type="text" class="form-control" [(ngModel)]="product.description"></td>
+                          <td><input type="number" class="form-control"  [(ngModel)]="product.price"></td>
+                          <td><input type="number" class="form-control"  [(ngModel)]="product.quantity"></td>
+                          <td><button class="btn btn-primary btn-sm  " (click)="saveChanges(product)">Invia</button></td>
+                          <td><button class="btn btn-danger btn-sm  " (click)="cancelEdit(product)">Annulla</button></td>
                         </tr>
                       </ng-container>
                   </tbody>

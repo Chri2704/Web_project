@@ -20,7 +20,7 @@ export class ProductService {
 
   //prende tutti i prodotti del backend usando la chiamata http GET sull' indirizzo /api/products che recupera tutti i prodotti dal db
   //è stato necessario definire il tipo di ritorno Observable<ServerResponse> alla funzione altrimenti problemi di overload dato che ci si aspettano 2 tipi di dato
-  getAllProducts(numberOfResults=10):Observable<ServerResponse>{
+  getAllProducts(numberOfResults=15):Observable<ServerResponse>{
     return this.http.get<ServerResponse>(this.SERVER_URL + 'products',{
       params:{
         limit: numberOfResults.toString()

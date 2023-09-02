@@ -1,0 +1,47 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <h1 class="mb-4 fw-bold">Create a New Product</h1>
+      <p class="lead">Please fill out this form to create a product.</p>
+      <hr>
+  
+      <div class="mb-3">
+        <label for="name" class="form-label"><b>Name</b></label>
+        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter name" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="image" class="form-label fw-bold">Immagine URL:</label>
+        <input type="text" class="form-control" id="image" formControlName="image">
+      </div>
+  
+      <div class="mb-3">
+        <label for="category" class="form-label"><b>Categoria</b></label>
+        <select class="form-select" id="category" formControlName="category">
+          <option value="" disabled selected>Scegli una categoria</option>
+          <option value="2">Electronics</option>
+        </select>
+      </div>
+      
+      
+  
+      <div class="mb-3">
+        <label for="price" class="form-label fw-bold">Prezzo:</label>
+        <input type="number" class="form-control" id="price" formControlName="price">
+      </div>
+  
+      <div class="mb-3">
+        <label for="quantity" class="form-label fw-bold">Quantità:</label>
+        <input type="number" class="form-control" id="quantity" formControlName="quantity">
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label fw-bold">Descrizione:</label>
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
+      </div>
+  
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-danger btn-lg my-2" [disabled]="!myForm.valid">Add Product</button>
+      </div>
+    </div>
+  </form>
+  
